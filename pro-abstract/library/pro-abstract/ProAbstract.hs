@@ -57,7 +57,7 @@ There are three kinds of block:
 
 - /Paragraphs/ contain inline content.
 
-    * 'Paragraph' = ('content' : 'Lines') × ('annotation' : 'Annotation')
+    * 'Paragraph' = ('contents' : 'Line') × ('annotation' : 'Annotation')
 
 Unenforced guideline: The 'Lines' of a 'Paragraph' should contain at least one 'Line'.
 
