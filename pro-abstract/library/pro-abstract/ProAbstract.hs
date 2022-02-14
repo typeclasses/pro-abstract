@@ -27,7 +27,7 @@ License: MPL-2.0
 
 Optics:
 
-- 'tag' targets the tag at a node; it is either a prism or an affine traversal, depending on the node type.
+- 'tag' targets the tag at a node; it is either a lens or an affine traversal, depending on the node type.
 - The 'allTags' traversal targets every tag at and below a node.
 - The 'allBlockTags' and 'allInlineTags' also target tags at or below a node, but are limited to tags at the block or inline level, respectively.
 - Since a tag has metadata, all of the optics for targeting parts of metadata (e.g. 'atSetting' and 'hasProperty') are also available on 'Tag' and on 'Tagged' nodes.
@@ -115,7 +115,7 @@ Documents and tags both have /metadata/.
 
 Optics:
 
-- 'metadata' targets the metadata of a node; it is either a prism or an affine traversal, depending on the node type.
+- 'metadata' targets the metadata of a node; it is either a lens or an affine traversal, depending on the node type.
 - 'atSetting' and 'hasProperty' target specific parts of metadata by name.
 - The 'allMetadata' traversal targets every metadata at and under a node.
 
