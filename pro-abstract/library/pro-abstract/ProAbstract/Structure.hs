@@ -1,0 +1,43 @@
+module ProAbstract.Structure
+    (
+    -- * Document
+      Document (..)
+
+    -- * Blocks
+    , Block (..), paragraph, Blocks (..), BlockTag (..), blockTag
+
+    -- * Paragraph
+    , Paragraph (..)
+
+    -- * Inlines
+    , Inline (..), Line (..), Lines (..)
+
+    -- * Tagged
+    , Tagged (..)
+
+    -- * Text
+    , PlainBlock (..), Fragment (..)
+
+    -- * Plain and fork
+    , CanBePlain (..), Plain, CanFork (..), Fork
+
+    -- * Traversals
+    , HasManyParagraphs (..), HasManyPlainBlocks (..), HasManyPlainInlines (..)
+
+    ) where
+
+
+import ProAbstract.Structure.Block
+import ProAbstract.Structure.BlockTag
+import ProAbstract.Structure.CanBePlain
+import ProAbstract.Structure.CanFork
+import ProAbstract.Structure.Document
+import ProAbstract.Structure.Fork
+import ProAbstract.Structure.Fragment
+import ProAbstract.Structure.HasManyParagraphs
+import ProAbstract.Structure.HasManyPlainBlocks
+import ProAbstract.Structure.HasManyPlainInlines
+import ProAbstract.Structure.Inline
+import ProAbstract.Structure.Paragraph
+import ProAbstract.Structure.Plain
+import ProAbstract.Structure.PlainBlock

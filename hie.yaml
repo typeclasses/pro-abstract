@@ -1,0 +1,8 @@
+cradle:
+  cabal:
+    - path: "./pro-abstract/library/pro-abstract"
+      component: "lib:pro-abstract"
+    - path: "./pro-abstract/library/pro-abstract-prelude"
+      component: "lib:pro-abstract-prelude"
+    - path: "./pro-abstract/test-suite/test-pro-abstract"
+      component: "test:test-pro-abstract"

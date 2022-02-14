@@ -1,0 +1,7 @@
+packages: pro-abstract
+
+constraints:
+    base == 4.16.*
+  , containers == 0.6.5.*
+  , hashable == 1.4.*
+  , hedgehog == 1.1.*
