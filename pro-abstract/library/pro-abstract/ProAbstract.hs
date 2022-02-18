@@ -37,6 +37,8 @@ Operations for altering tags and/or removing tagged nodes in bulk:
   - Pure: 'mapMaybeTags', 'mapMaybeBlockTags', 'mapMaybeInlineTags'
   - Monadic: 'witherTags', 'witherBlockTags', 'witherInlineTags'
 
+Example: @'mapMaybeTags' (preview (filtered \\x -> view 'name' x /= "comment"))@ is an endofunction that removes all nodes having a tag name of "comment".
+
 
 === The Block level
 
