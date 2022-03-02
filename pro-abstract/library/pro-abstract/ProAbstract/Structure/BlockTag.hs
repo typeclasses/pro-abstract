@@ -20,6 +20,8 @@ import ProAbstract.Tag
 data BlockTag ann =
     BlockTagFork  (Tagged (Blocks ann))     -- ^ 'ProAbstract.fork'
   | BlockTagPlain (Tagged (PlainBlock ann)) -- ^ 'ProAbstract.plain'
+  deriving stock (Eq, Show, Generic)
+  deriving anyclass (Hashable, NFData)
 
 type instance Content (BlockTag ann) = BlockTagContent ann
 
