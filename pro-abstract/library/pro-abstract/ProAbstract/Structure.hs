@@ -18,8 +18,11 @@ module ProAbstract.Structure
     -- * Text
     , PlainBlock (..), Fragment (..)
 
-    -- * Plain and fork
+    -- * Plain or fork
     , CanBePlain (..), Plain, CanFork (..), Fork
+
+    -- * Tagged or bare
+    , IsTaggedOrBare (..), TaggedOrBare (..), tagged, bare
 
     -- * Traversals
     , HasManyParagraphs (..), HasManyPlainBlocks (..), HasManyPlainInlines (..)
@@ -39,6 +42,7 @@ import ProAbstract.Structure.HasManyParagraphs
 import ProAbstract.Structure.HasManyPlainBlocks
 import ProAbstract.Structure.HasManyPlainInlines
 import ProAbstract.Structure.Inline
+import ProAbstract.Structure.IsTaggedOrBare
 import ProAbstract.Structure.Paragraph
 import ProAbstract.Structure.Plain
 import ProAbstract.Structure.PlainBlock

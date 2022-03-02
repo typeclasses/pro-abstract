@@ -44,7 +44,7 @@ Example: @'mapMaybeTags' (preview (filtered \\x -> view 'name' x /= "comment"))@
 
 /Block-level/ content is everything that appears below the document level and above the paragraph level.
 
-- 'Block' = ('fork' : 'Tagged' 'Blocks') ∪ ('plain' : 'Tagged' 'PlainBlock') ∪ ('paragraph' : 'Paragraph')
+- 'Block' = ('fork' : 'Tagged' 'Blocks') ∪ ('plain' : 'Tagged' 'PlainBlock') ∪ ('bare' : 'Paragraph')
 
 There are three kinds of block:
 
@@ -57,7 +57,7 @@ There are three kinds of block:
     * 'Tagged' 'PlainBlock' = ('tag' : 'Tag') × ('content' : 'PlainBlock')
     * 'PlainBlock' = ('contents' : 'Fragment') × ('annotation' : 'Annotation')
 
-- /Paragraphs/ contain inline content.
+- /Bare/ blocks (paragraphs) contain inline content.
 
     * 'Paragraph' = ('contents' : 'Line') × ('annotation' : 'Annotation')
 
@@ -72,9 +72,9 @@ A /BlockTag/ is a non-paragraph Block.
 
 The Block type can be described in terms of BlockTag as:
 
-- 'Block' = ('blockTag' : 'BlockTag') ∪ ('paragraph' : 'Paragraph')
+- 'Block' = ('tagged' : 'BlockTag') ∪ ('bare' : 'Paragraph')
 
-Example: @'blockTag' % 'Optics.Core.filtered' (\x -> 'Optics.Core.view' 'name' x == "h1")@ is an affine fold that targets blocks with a tag name of "h1".
+Example: @'tagged' % 'Optics.Core.filtered' (\x -> 'Optics.Core.view' 'name' x == "h1")@ is an affine fold that targets blocks with a tag name of "h1".
 
 The BlockTag type can also be described as:
 
@@ -88,17 +88,17 @@ The BlockTag type can also be described as:
 
 Inline content is grouped into lines; we specify no particular semantics of line breaks but suggest that a typical consumer of 'Lines' will fold them together with a single space character interspersed between the lines.
 
-- 'Inline' = ('fork' : 'Tagged' 'Lines') ∪ ('plain' : 'Fragment')
+- 'Inline' = ('fork' or 'tagged' : 'Tagged' 'Lines') ∪ ('plain' or 'bare' : 'Fragment')
 
 There are two kinds of inline:
 
-- /Fork/ inlines contain more inlines.
+- /Fork/ or /tag/ inlines contain more inlines.
 
     * 'Tagged' 'Lines' = ('tag' : 'Tag') × ('content' : 'Lines')
     * 'Lines' = ('contents' : 'Line')
     * 'Line' = ('content' : 'Seq' 'Inline') × ('annotation' : 'Annotation')
 
-- /Plain/ inlines contain text.
+- /Plain/ or /bare/ inlines contain text.
 
 Unenforced guideline: Each 'Line' should contain at least one 'Inline'.
 
@@ -160,29 +160,40 @@ List of nodes and their content types:
 'HasContent' and 'HasContents' have type aliases 'HasContents'' and 'HasContents'' respectively for types that only support simple optics.
 
 
-=== Fork and plain
+=== Tagged or bare
+
+At both the block and inline level, a node is either /tagged/ or /bare/, a fact manifested by the 'taggedOrBare' isomorphism of the 'IsTaggedOrBare' class.
+
+The 'tagged' prism is overloaded via the 'TaggedType' type family, and the 'bare' prism is overloaded via the 'BareType' family.
+
+List of nodes and their tagged/bare types:
+
++-----------------------+-----------------------+-----------------------+
+| __x__                 | __TaggedType x__      | __BareType x__        |
++-----------------------+-----------------------+-----------------------+
+| 'Block'               | 'BlockTag'            | 'Paragraph'           |
++-----------------------+-----------------------+-----------------------+
+| 'Inline'              | 'Tagged' 'Lines'      | 'Fragment'            |
++-----------------------+-----------------------+-----------------------+
+
+
+=== Fork or plain
 
 At both the block and inline level, a node may be a /fork/ that contains a sequence of more content at the same level, and a node may be /plain/ node that just contains text.
 
-The 'fork' prism is overloaded via the 'Fork' type family and 'CanFork' class. List of nodes and their fork types:
+The 'fork' prism is overloaded via the 'Fork' type family and 'CanFork' class.
 
-+-----------------------+-----------------------+
-| __x__                 | __Fork x__            |
-+-----------------------+-----------------------+
-| 'Block'               | 'Tagged' 'Blocks'     |
-+-----------------------+-----------------------+
-| 'Inline'              | 'Tagged' 'Lines'      |
-+-----------------------+-----------------------+
+The 'plain' prism is overloaded via the 'Plain' type family and 'CanBePlain' class.
 
-The 'plain' prism is overloaded via the 'Plain' type family and 'CanBePlain' class. List of nodes and their plain types:
+List of nodes and their fork/plain types:
 
-+-----------------------+-----------------------+
-| __x__                 | __Plain x__           |
-+-----------------------+-----------------------+
-| 'Block'               | 'Tagged' 'PlainBlock' |
-+-----------------------+-----------------------+
-| 'Inline'              | 'Fragment'            |
-+-----------------------+-----------------------+
++-----------------------+-----------------------+-----------------------+
+| __x__                 | __Fork x__            | __Plain x__           |
++-----------------------+-----------------------+-----------------------+
+| 'Block'               | 'Tagged' 'Blocks'     | 'Tagged' 'PlainBlock' |
++-----------------------+-----------------------+-----------------------+
+| 'Inline'              | 'Tagged' 'Lines'      | 'Fragment'            |
++-----------------------+-----------------------+-----------------------+
 
 ('Block' also has a third prism, 'paragraph', which is neither fork nor plain.)
 
@@ -239,6 +250,7 @@ module ProAbstract
     {- * Prisms -}
     {- ** Plain -} Plain, CanBePlain (..),
     {- ** Fork -} Fork, CanFork (..),
+    {- ** Tagged/bare -} tagged, bare, IsTaggedOrBare (..), TaggedOrBare (..),
     {- ** Paragraph -} paragraph,
 
     {- * Metadata -} Metadata (..), HasMetadata (..), HasManyMetadata (..),

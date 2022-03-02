@@ -1,10 +1,20 @@
 module ProAbstract.Families
-    ( Annotation
-    , Content
-    , Contents
-    , Fork
-    , Plain
+    (
+    -- * Annotation
+      Annotation
+
+    -- * Content plus a tag
     , Tagged
+
+    -- ** Content
+    , Content, Contents
+
+    -- * Fork or plain
+    , Fork, Plain
+
+    -- * Tagged or bare
+    , TaggedType, BareType
+
     ) where
 
 import ProAbstract.Annotation

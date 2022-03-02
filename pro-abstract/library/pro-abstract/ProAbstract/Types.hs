@@ -21,6 +21,7 @@ module ProAbstract.Types
     , Set
     , Tag
     , Tagged
+    , TaggedOrBare
     , Text
     ) where
 

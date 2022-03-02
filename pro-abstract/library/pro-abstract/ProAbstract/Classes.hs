@@ -1,7 +1,7 @@
 module ProAbstract.Classes
     (
-    -- * Block and inline prisms
-      CanBePlain (..), CanFork (..)
+    -- * Block and inline choices
+      CanBePlain (..), CanFork (..), IsTaggedOrBare (..)
 
     -- * Plaintext traversals
     , HasManyPlainBlocks (..), HasManyPlainInlines (..)

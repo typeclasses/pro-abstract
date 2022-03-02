@@ -4,3 +4,10 @@ v0.1.1.0 - Added the BlockTagContent type
 
 v0.1.2.0 - Add instances (Eq, Show, Generic, Hashable, NFData)
            to classes (BlockTag, BlockTagContent)
+
+v0.1.3.0 - Add:
+    - type TaggedOrBare
+    - class IsTaggedOrBare
+        - type families TaggedType and BareType
+        - isomorphism 'taggedOrBare'
+    - prisms 'tagged' and 'bare'

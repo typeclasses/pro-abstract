@@ -10,7 +10,10 @@ module ProAbstract.Optics
     , metadata, atSetting, hasProperty, properties, settings
 
     -- * Prisms
-    , fork, plain, paragraph, blockTag
+    , fork, plain, paragraph, blockTag, tagged, bare
+
+    -- * Isomorphisms
+    , taggedOrBare
 
     -- * Traversals
     , allParagraphs, allPlainBlocks, allPlainInlines

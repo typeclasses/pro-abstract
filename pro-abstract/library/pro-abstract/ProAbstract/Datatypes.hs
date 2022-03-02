@@ -10,7 +10,7 @@ module ProAbstract.Datatypes
     , Inline (..), Line (..), Lines (..)
 
     -- * Tags and tagged things
-    , Tag (..), Tagged (..), BlockTag (..)
+    , Tag (..), Tagged (..), BlockTag (..), TaggedOrBare (..)
 
     -- * Paragraph
     , Paragraph (..)
