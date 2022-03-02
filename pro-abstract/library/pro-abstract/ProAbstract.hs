@@ -236,7 +236,7 @@ module ProAbstract
 
     {- * Blocks -} Block (..), Blocks (..),
     {- ** Paragraphs -} Paragraph (..), HasManyParagraphs (..),
-    {- ** Tag blocks -} BlockTag (..), blockTag,
+    {- ** Tag blocks -} BlockTag (..), blockTag, BlockTagContent (..),
 
     {- * Lines -} Inline (..), Line (..), Lines (..),
     {- ** Plain text -} Fragment (..), PlainBlock (..),
