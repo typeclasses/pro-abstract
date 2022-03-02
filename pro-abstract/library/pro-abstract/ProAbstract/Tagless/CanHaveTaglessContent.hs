@@ -21,6 +21,9 @@ instance CanHaveTaglessContent (BlockTag ann) where
         (plain % taglessContent @(Tagged (PlainBlock ann)) s) `afailing`
         (fork % taglessContent @(Tagged (Blocks ann)) s)
 
+instance CanHaveTaglessContent (BlockTagContent ann) where
+    taglessContent = tagless
+
 instance CanHaveTaglessContent (Inline ann) where
     taglessContent s = (plain % tagless s) `afailing` (fork % taglessContent s)
 

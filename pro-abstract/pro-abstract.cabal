@@ -1,7 +1,7 @@
 cabal-version: 3.0
 
 name: pro-abstract
-version: 0.1.0.0
+version: 0.1.1.0
 
 category: Language
 synopsis: Abstract syntax for writing documents
@@ -20,6 +20,8 @@ author: Chris Martin, James Alexander Feldman-Crough
 copyright:
     © 2020 James Alexander Feldman-Crough,
     © 2022 Mission Valley Software LLC
+
+extra-source-files: changelog.txt
 
 source-repository head
     type: git
@@ -88,6 +90,7 @@ library
       , ProAbstract.Metadata.MetadataType
       , ProAbstract.Structure.Block
       , ProAbstract.Structure.BlockTag
+      , ProAbstract.Structure.BlockTagContent
       , ProAbstract.Structure.CanBePlain
       , ProAbstract.Structure.CanFork
       , ProAbstract.Structure.Document

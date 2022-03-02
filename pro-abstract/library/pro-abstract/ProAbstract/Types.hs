@@ -3,6 +3,7 @@ module ProAbstract.Types
     , Block
     , Blocks
     , BlockTag
+    , BlockTagContent
     , Content
     , Contents
     , Document

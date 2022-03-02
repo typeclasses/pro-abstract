@@ -4,7 +4,7 @@ module ProAbstract.Structure
       Document (..)
 
     -- * Blocks
-    , Block (..), paragraph, Blocks (..), BlockTag (..), blockTag
+    , Block (..), paragraph, Blocks (..), BlockTag (..), blockTag, BlockTagContent (..)
 
     -- * Paragraph
     , Paragraph (..)
@@ -29,6 +29,7 @@ module ProAbstract.Structure
 
 import ProAbstract.Structure.Block
 import ProAbstract.Structure.BlockTag
+import ProAbstract.Structure.BlockTagContent
 import ProAbstract.Structure.CanBePlain
 import ProAbstract.Structure.CanFork
 import ProAbstract.Structure.Document

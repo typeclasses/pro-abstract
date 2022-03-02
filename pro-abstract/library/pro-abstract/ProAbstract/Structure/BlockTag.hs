@@ -3,8 +3,10 @@ module ProAbstract.Structure.BlockTag
     ) where
 
 import ProAbstract.Annotation
+import ProAbstract.Content
 import ProAbstract.Metadata
 import ProAbstract.Structure.Block
+import ProAbstract.Structure.BlockTagContent
 import ProAbstract.Structure.CanBePlain
 import ProAbstract.Structure.CanFork
 import ProAbstract.Structure.Fork
@@ -19,11 +21,25 @@ data BlockTag ann =
     BlockTagFork  (Tagged (Blocks ann))     -- ^ 'ProAbstract.fork'
   | BlockTagPlain (Tagged (PlainBlock ann)) -- ^ 'ProAbstract.plain'
 
+type instance Content (BlockTag ann) = BlockTagContent ann
+
 type instance Annotation (BlockTag ann) = ann
 
 type instance Plain (BlockTag ann) = Tagged (PlainBlock ann)
 
 type instance Fork (BlockTag ann) = Tagged (Blocks ann)
+
+instance HasContent (BlockTag ann) (BlockTag ann) where
+    content = lens f g
+      where
+        f = \case
+            BlockTagFork x -> BlockTagContent_Fork $ view content x
+            BlockTagPlain x -> BlockTagContent_Plain $ view content x
+        g x = \case
+            BlockTagContent_Fork c -> BlockTagFork $ TaggedBlocks t c
+            BlockTagContent_Plain c -> BlockTagPlain $ TaggedPlainBlock t c
+          where
+            t = view tag x
 
 instance CanFork (BlockTag ann) where
     fork = prism' BlockTagFork \case{ BlockTagFork x -> Just x; _ -> Nothing }

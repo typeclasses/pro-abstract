@@ -4,7 +4,7 @@ module ProAbstract.Datatypes
       Document (..)
 
     -- * Blocks
-    , Block (..), Blocks (..)
+    , Block (..), Blocks (..), BlockTagContent (..)
 
     -- * Lines
     , Inline (..), Line (..), Lines (..)

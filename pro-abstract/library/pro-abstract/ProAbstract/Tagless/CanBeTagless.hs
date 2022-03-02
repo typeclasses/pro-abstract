@@ -40,6 +40,9 @@ instance CanBeTagless (Blocks ann) where
             % all @Maybe (tagless s) -- If there is a block, it has to be convertable to the desired text kind
             % to (fromMaybe (noText s)) -- If there are no blocks, return an empty line or stanza
 
+instance CanBeTagless (BlockTagContent ann) where
+    tagless s = (fork % tagless s) `afailing` (plain % tagless s)
+
 noText :: KindOfText txt -> txt
 noText = \case{ TextLine -> textEmpty; TextStanza -> Empty; TextParagraphs -> Empty }
 

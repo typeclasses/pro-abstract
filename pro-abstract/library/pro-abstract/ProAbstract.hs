@@ -76,6 +76,11 @@ The Block type can be described in terms of BlockTag as:
 
 Example: @'blockTag' % 'Optics.Core.filtered' (\x -> 'Optics.Core.view' 'name' x == "h1")@ is an affine fold that targets blocks with a tag name of "h1".
 
+The BlockTag type can also be described as:
+
+- 'BlockTag' = ('tag' :: 'Tag') × ('content' : 'BlockTagContent')
+- 'BlockTagContent' = ('fork' : 'Blocks') ∪ ('plain' : 'PlainBlock')
+
 
 === The Inline level
 
@@ -136,6 +141,8 @@ List of nodes and their content types:
 | 'Document'            | 'Blocks'              | 'Block'               |
 +-----------------------+-----------------------+-----------------------+
 | 'Blocks'              | —                     | 'Block'               |
++-----------------------+-----------------------+-----------------------+
+| 'BlockTag'            | 'BlockTagContent'     | —                     |
 +-----------------------+-----------------------+-----------------------+
 | 'Paragraph'           | 'Lines'               | 'Line'                |
 +-----------------------+-----------------------+-----------------------+
