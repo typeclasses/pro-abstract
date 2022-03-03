@@ -125,6 +125,8 @@ Optics:
 - 'metadata' targets the metadata of a node; it is either a lens or an affine traversal, depending on the node type.
 - 'atSetting' and 'hasProperty' target specific parts of metadata by name.
 - The 'allMetadata' traversal targets every metadata at and under a node.
+- 'metaMap' gives properties and settings combined into a single 'Map' 'Text' 'MetaValue'
+- 'metaList' gives properties and settings combined into a list of 'MetaItem'
 
 
 === Content
@@ -254,6 +256,8 @@ module ProAbstract
     {- * Metadata -} Metadata (..), HasMetadata (..), HasManyMetadata (..),
     {- ** Properties -} properties, hasProperty,
     {- ** Settings -} settings, atSetting,
+    {- ** Item list -} MetaItem (..), metaList,
+    {- ** Value map -} MetaValue (..), metaMap,
 
     {- * Content -} Content, HasContent (..), HasContent',
     {- ** Contents -} Contents, HasContents (..), HasContents',

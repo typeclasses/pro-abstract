@@ -1,6 +1,6 @@
 module Containers where
 
-import BasePrelude (Applicative, Bool, Foldable, Maybe (..), Ord, Semigroup, maybe, pure, (.), (<*>), (<>))
+import BasePrelude (Applicative, Bool, Either, Foldable, Maybe (..), Monoid, Ord, Semigroup, maybe, pure, (.), (<*>), (<>))
 import Data.Foldable (fold, toList)
 import Data.Function (fix, id)
 import Optics.Core (Prism', prism')
@@ -24,6 +24,30 @@ mapDelete = Map.delete
 
 mapInsert :: Ord k => k -> a -> Map k a -> Map k a
 mapInsert = Map.insert
+
+mapFromSet :: (k -> a) -> Set k -> Map k a
+mapFromSet = Map.fromSet
+
+mapMapEither :: (a -> Either b c) -> Map k a -> (Map k b, Map k c)
+mapMapEither = Map.mapEither
+
+mapMapMaybe :: (a -> Maybe b) -> Map k a -> Map k b
+mapMapMaybe = Map.mapMaybe
+
+mapKeysSet :: Map k a -> Set k
+mapKeysSet = Map.keysSet
+
+mapUnionWith :: Ord k => (a -> a -> a) -> Map k a -> Map k a -> Map k a
+mapUnionWith = Map.unionWith
+
+mapFilter :: (a -> Bool) -> Map k a -> Map k a
+mapFilter = Map.filter
+
+mapToList :: Map k a -> [(k, a)]
+mapToList = Map.toAscList
+
+mapFoldMapWithKey :: Monoid m => (k -> a -> m) -> Map k a -> m
+mapFoldMapWithKey = Map.foldMapWithKey
 
 setMember :: Ord a => a -> Set a -> Bool
 setMember = Set.member

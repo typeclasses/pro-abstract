@@ -13,6 +13,8 @@ module ProAbstract.Types
     , Line
     , Lines
     , Map
+    , MetaItem
+    , MetaValue
     , Metadata
     , Paragraph
     , Plain

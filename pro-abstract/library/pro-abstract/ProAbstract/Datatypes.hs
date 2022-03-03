@@ -19,7 +19,7 @@ module ProAbstract.Datatypes
     , Fragment (..), PlainBlock (..)
 
     -- * Metadata
-    , Metadata (..)
+    , Metadata (..), MetaItem (..), MetaValue (..)
 
     ) where
 

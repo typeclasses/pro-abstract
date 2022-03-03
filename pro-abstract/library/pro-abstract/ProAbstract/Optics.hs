@@ -1,33 +1,25 @@
 module ProAbstract.Optics
     (
-    -- * Lenses
-      content, contents, tag, name
+    -- * Content
+      content, contents
 
-    -- ** Annotation
-    , annotation
-
-    -- ** Metadata
-    , metadata, atSetting, hasProperty, properties, settings
-
-    -- * Prisms
-    , fork, plain, tagged, bare
-
-    -- * Isomorphisms
-    , taggedOrBare
-
-    -- * Traversals
-    , allParagraphs, allPlainBlocks, allPlainInlines
-
-    -- ** Annotation
-    , allAnnotations
-
-    -- ** Tags
+    -- * Tags
+    , tag, name
     , allTags, allInlineTags, allBlockTags
 
-    -- ** Metadata
-    , allMetadata
+    -- * Annotation
+    , annotation, allAnnotations
 
-    -- * Affine folds
+    -- * Metadata
+    , metadata
+    , atSetting, hasProperty, properties, settings
+    , allMetadata, metaList, metaMap
+
+    -- * Structure
+    , fork, plain, tagged, bare, taggedOrBare
+    , allParagraphs, allPlainBlocks, allPlainInlines
+
+    -- * Taglessness
     , tagless, taglessContent, KindOfText (..)
 
     ) where

@@ -1,7 +1,7 @@
 cabal-version: 3.0
 
 name: pro-abstract
-version: 0.2.0.0
+version: 0.2.1.0
 
 category: Language
 synopsis: Abstract syntax for writing documents
@@ -86,6 +86,9 @@ library
       , ProAbstract.Metadata.HasManyMetadata
       , ProAbstract.Metadata.HasMetadata
       , ProAbstract.Metadata.HasMetadataOptics
+      , ProAbstract.Metadata.MetaItem
+      , ProAbstract.Metadata.MetaList
+      , ProAbstract.Metadata.MetaValue
       , ProAbstract.Metadata.MetadataOptics
       , ProAbstract.Metadata.MetadataType
       , ProAbstract.Structure.Block
@@ -146,3 +149,4 @@ test-suite test-pro-abstract
         pro-abstract
       , neat-interpolation ^>= 0.5
       , hedgehog ^>= 1.0 || ^>= 1.1
+      , hedgehog-optics ^>= 1.0

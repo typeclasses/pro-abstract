@@ -18,3 +18,6 @@ v0.1.4.0 - Export BlockTagContent from the ProAbstract module
 v0.2.0.0 - Remove:
     - prism 'blockTag' -- use 'tagged' instead
     - prism 'paragraph' -- use 'bare' instead
+
+v0.2.1.0 - Add:
+    MetaItem, MetaValue, metaMap, metaList

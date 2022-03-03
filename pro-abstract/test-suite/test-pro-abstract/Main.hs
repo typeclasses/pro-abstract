@@ -6,9 +6,16 @@ import Optics.Core
 import Prelude hiding (break)
 
 import Control.Monad (when)
+import Data.Map.Strict (Map)
+import qualified Data.Map.Strict as Map
+import Data.Set (Set)
+import qualified Data.Set as Set
 import Data.Text (Text)
-import Hedgehog (Property, checkParallel, discover, property, withTests, (===))
+import Data.Traversable (for)
+import Hedgehog (Gen, Property, checkParallel, discover, property, withTests, (===))
+import qualified Hedgehog.Gen as Gen
 import System.Exit (exitFailure)
+import Hedgehog.Optics
 
 main :: IO ()
 main = checkParallel $$discover >>= \ok -> when (not ok) exitFailure
@@ -94,3 +101,46 @@ prop_ex12 :: Property
 prop_ex12 = withTests 1 $ property $ do
     x <- pure $ tbtag $ [para [[inlinePlain "abc", inlinePlain "def"], [inlinePlain "ghi"]]]
     preview (fork % content % (tagless TextStanza)) x === Just ["abcdef", "ghi"]
+
+genMetadata :: Gen Metadata
+genMetadata = Metadata <$> genProperties <*> genSettings
+
+genProperties :: Gen (Set Text)
+genProperties = Set.fromList <$> genMetaKeys
+
+metaKeyChoices :: [Text]
+metaKeyChoices = ["one", "two", "three", "four", "five", "six", "seven"]
+
+metaValueChoices :: [Text]
+metaValueChoices = ["alpha", "beta", "delta", "gamma", "phi"]
+
+genMetaKeys :: Gen [Text]
+genMetaKeys = Gen.subsequence metaKeyChoices
+
+genSettingValue :: Gen Text
+genSettingValue = Gen.element metaValueChoices
+
+genMetaKey :: Gen Text
+genMetaKey = Gen.element metaKeyChoices
+
+genSettings :: Gen (Map Text Text)
+genSettings = do
+    ks <- genMetaKeys
+    kvs <- for ks \k -> genSettingValue >>= \v -> pure (k, v)
+    pure $ Map.fromList kvs
+
+genMetaMap :: Gen (Map Text MetaValue)
+genMetaMap = do
+    ks <- genMetaKeys
+    kvs <- for ks \k -> genMetaValue >>= \v -> pure (k, v)
+    pure $ Map.fromList kvs
+
+genMetaValue :: Gen MetaValue
+genMetaValue = Gen.choice
+    [ pure MetaValue_Property
+    , pure MetaValue_Setting <*> genSettingValue
+    , pure MetaValue_PropertyAndSetting <*> genSettingValue
+    ]
+
+prop_metaMap :: Property
+prop_metaMap = property $ wellFormedIso genMetadata genMetaMap metaMap

@@ -1,9 +1,10 @@
-module ProAbstract.Metadata.HasMetadataOptics
-    ( properties, settings, hasProperty, atSetting
-    ) where
+module ProAbstract.Metadata.HasMetadataOptics where
 
 import ProAbstract.Metadata.HasMetadata
+import ProAbstract.Metadata.MetaItem
+import ProAbstract.Metadata.MetaValue
 
+import qualified ProAbstract.Metadata.MetaList as Meta
 import qualified ProAbstract.Metadata.MetadataOptics as Meta
 
 -- | Fetch all properties from items which contain metadata.
@@ -21,3 +22,9 @@ hasProperty k = metadata % Meta.hasProperty k
 -- | Select a setting from an item attached to metadata. Returns 'Nothing' if no value is set.
 atSetting :: (HasMetadata m, JoinKinds (MetadataOpticKind m) A_Lens k) => Text -> Optic' k NoIx m (Maybe Text)
 atSetting k = metadata % Meta.atSetting k
+
+metaMap :: (HasMetadata m, JoinKinds (MetadataOpticKind m) An_Iso k) => Optic' k NoIx m (Map Text MetaValue)
+metaMap = metadata % Meta.metaMap
+
+metaList :: (HasMetadata m, Is (MetadataOpticKind m) An_AffineFold) => Getter m [MetaItem]
+metaList = to $ maybe [] (view Meta.metaList) . preview metadata
