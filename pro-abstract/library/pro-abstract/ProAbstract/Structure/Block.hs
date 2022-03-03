@@ -21,7 +21,7 @@ import ProAbstract.Tag
 
 data Block ann =
     BlockPlain     (Tagged (PlainBlock ann)) -- ^ 'ProAbstract.plain'
-  | BlockParagraph (Paragraph ann)           -- ^ 'ProAbstract.paragraph'
+  | BlockParagraph (Paragraph ann)           -- ^ 'ProAbstract.bare'
   | BlockFork      (Tagged (Blocks ann))     -- ^ 'ProAbstract.fork'
   deriving stock (Eq, Show, Generic)
   deriving anyclass (Hashable, NFData)

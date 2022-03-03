@@ -4,7 +4,7 @@ module ProAbstract.Structure
       Document (..)
 
     -- * Blocks
-    , Block (..), paragraph, Blocks (..), BlockTag (..), blockTag, BlockTagContent (..)
+    , Block (..), Blocks (..), BlockTag (..), BlockTagContent (..)
 
     -- * Paragraph
     , Paragraph (..)

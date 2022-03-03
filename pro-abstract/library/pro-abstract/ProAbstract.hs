@@ -195,7 +195,7 @@ List of nodes and their fork/plain types:
 | 'Inline'              | 'Tagged' 'Lines'      | 'Fragment'            |
 +-----------------------+-----------------------+-----------------------+
 
-('Block' also has a third prism, 'paragraph', which is neither fork nor plain.)
+('Block' also has a third prism, 'bare', which is neither fork nor plain.)
 
 
 === Annotation
@@ -236,7 +236,7 @@ module ProAbstract
 
     {- * Blocks -} Block (..), Blocks (..),
     {- ** Paragraphs -} Paragraph (..), HasManyParagraphs (..),
-    {- ** Tag blocks -} BlockTag (..), blockTag, BlockTagContent (..),
+    {- ** Tag blocks -} BlockTag (..), BlockTagContent (..),
 
     {- * Lines -} Inline (..), Line (..), Lines (..),
     {- ** Plain text -} Fragment (..), PlainBlock (..),
@@ -248,10 +248,8 @@ module ProAbstract
             HasWitherableInlineTags (..), HasWitherableBlockTags (..),
 
     {- * Prisms -}
-    {- ** Plain -} Plain, CanBePlain (..),
-    {- ** Fork -} Fork, CanFork (..),
+    {- ** Plain/fork -} Plain, CanBePlain (..), Fork, CanFork (..),
     {- ** Tagged/bare -} tagged, bare, IsTaggedOrBare (..), TaggedOrBare (..),
-    {- ** Paragraph -} paragraph,
 
     {- * Metadata -} Metadata (..), HasMetadata (..), HasManyMetadata (..),
     {- ** Properties -} properties, hasProperty,

@@ -28,9 +28,9 @@ instance CanBeTagless (Paragraph ann) where
 instance CanBeTagless (Inline ann) where
     tagless s = plain % tagless s
 
--- | Only a 'paragraph' inline is considered to be plain text, because 'fork' and 'plain' blocks have tags.
+-- | Only a 'bare' block is considered to be plain text, because 'fork' and 'plain' blocks have tags.
 instance CanBeTagless (Block ann) where
-    tagless s = paragraph % tagless s
+    tagless s = bare % tagless s
 
 instance CanBeTagless (Blocks ann) where
     tagless = \case

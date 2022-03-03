@@ -14,3 +14,7 @@ v0.1.3.0 - Add:
 
 v0.1.4.0 - Export BlockTagContent from the ProAbstract module
            (mistakenly omitted in v0.1.1.0)
+
+v0.2.0.0 - Remove:
+    - prism 'blockTag' -- use 'tagged' instead
+    - prism 'paragraph' -- use 'bare' instead
