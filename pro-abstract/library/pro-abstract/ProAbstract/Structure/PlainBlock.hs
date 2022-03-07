@@ -11,8 +11,8 @@ import ProAbstract.Tag
 
 -- ⭐ PlainBlock
 
-data PlainBlock ann = PlainBlock
-  { plainBlockLines      :: Seq (Fragment ann) -- ^ 'ProAbstract.contentsSeq'
+data PlainBlock seq ann = PlainBlock
+  { plainBlockLines      :: seq (Fragment ann) -- ^ 'ProAbstract.contentsSeq'
   , plainBlockAnnotation :: ann                -- ^ 'ProAbstract.annotation'
   }
   deriving stock (Eq, Show, Generic)

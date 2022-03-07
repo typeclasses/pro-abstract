@@ -2,8 +2,7 @@ module ProAbstract.Tagless.KindOfText
     ( KindOfText (..)
     ) where
 
-data KindOfText txt where
-    TextLine       :: KindOfText           Text
-    TextStanza     :: KindOfText      (Seq Text)
-    TextParagraphs :: KindOfText (Seq (Seq Text))
-
+data KindOfText seq txt where
+    TextLine       :: KindOfText seq           Text
+    TextStanza     :: KindOfText seq      (seq Text)
+    TextParagraphs :: KindOfText seq (seq (seq Text))

@@ -44,7 +44,9 @@ common base
         LambdaCase
         MultiParamTypeClasses
         PatternSynonyms
+        QuantifiedConstraints
         ScopedTypeVariables
+        StandaloneDeriving
         TypeApplications
         TypeFamilies
     build-depends:

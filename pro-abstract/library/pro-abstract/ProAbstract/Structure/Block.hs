@@ -107,9 +107,9 @@ paragraph = prism'
 
 -- ⭐ Blocks
 
-newtype Blocks ann =
+newtype Blocks seq ann =
     Blocks
-      (Seq (Block ann)) -- ^ 'ProAbstract.content'
+      (seq (Block ann)) -- ^ 'ProAbstract.content'
   deriving stock (Eq, Show, Generic)
   deriving anyclass (Hashable, NFData)
   deriving newtype (Semigroup, Monoid)

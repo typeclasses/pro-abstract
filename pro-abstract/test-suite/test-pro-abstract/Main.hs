@@ -1,6 +1,9 @@
+{-# LANGUAGE DataKinds, FunctionalDependencies, PolyKinds #-}
+
 module Main (main) where
 
 import ProAbstract
+import qualified ProAbstract.Pro
 
 import Optics.Core
 import Prelude hiding (break)
@@ -14,28 +17,30 @@ import Data.Text (Text)
 import Data.Traversable (for)
 import Hedgehog (Gen, Property, checkParallel, discover, property, withTests, (===))
 import qualified Hedgehog.Gen as Gen
-import System.Exit (exitFailure)
 import Hedgehog.Optics
+import System.Exit (exitFailure)
+
+type Pro (a :: k) = ProAbstract.Pro.Pro () a
 
 main :: IO ()
 main = checkParallel $$discover >>= \ok -> when (not ok) exitFailure
 
-frag :: Text -> Fragment ()
+frag :: Text -> Pro Fragment
 frag x = Fragment{ fragmentText = x, fragmentAnnotation = () }
 
-inlinePlain :: Text -> Inline ()
+inlinePlain :: Text -> Pro Inline
 inlinePlain = InlinePlain . frag
 
-inlineFork :: Lines () -> Inline ()
+inlineFork :: Pro Lines -> Pro Inline
 inlineFork x = InlineFork $ TaggedLines{ linesTag = Tag{ tagName = "x", tagMetadata = mempty, tagAnnotation = () }, taggedLines = x }
 
-para :: Lines () -> Block ()
+para :: Pro Lines -> Pro Block
 para x = BlockParagraph Paragraph{ paragraphAnnotation = (), paragraphContent = x }
 
-btag :: Blocks () -> Block ()
+btag :: Pro Blocks  -> Pro Block
 btag x = BlockFork TaggedBlocks{ blocksTag = Tag{ tagName = "x", tagMetadata = mempty, tagAnnotation = () }, taggedBlocks = x }
 
-tbtag :: Blocks () -> BlockTag ()
+tbtag :: Pro Blocks -> Pro BlockTag
 tbtag x = BlockTagFork TaggedBlocks{ blocksTag = Tag{ tagName = "x", tagMetadata = mempty, tagAnnotation = () }, taggedBlocks = x }
 
 prop_ex1 :: Property

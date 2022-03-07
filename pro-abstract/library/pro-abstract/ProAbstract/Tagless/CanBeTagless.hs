@@ -52,7 +52,7 @@ all = afolding . traverse . preview
 liftLine :: AffineFold a Text -> KindOfText txt -> AffineFold a txt
 liftLine o = liftStanza o (o % re seqSingleton)
 
-liftStanza :: AffineFold a Text -> AffineFold a (Seq Text) -> KindOfText txt -> AffineFold a txt
+liftStanza :: AffineFold a Text -> AffineFold a (seq Text) -> KindOfText txt -> AffineFold a txt
 liftStanza o1 o2 = \case{ TextLine -> o1; TextStanza -> o2; TextParagraphs -> o2 % re seqSingleton }
 
 linesAre :: HasContents' a => AffineFold (Contents a) Text -> KindOfText txt -> AffineFold a txt
