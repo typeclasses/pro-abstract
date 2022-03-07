@@ -21,3 +21,9 @@ v0.2.0.0 - Remove:
 
 v0.2.1.0 - Add:
     MetaItem, MetaValue, metaMap, metaList
+
+v0.3.0.0
+    - Removes the 'Tagged' data family.
+        - Tagged PlainBlock -> TaggedPlainBlock
+        - Tagged Lines -> TaggedLines
+        - Tagged Blocks -> TaggedBlocks

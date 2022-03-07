@@ -1,7 +1,7 @@
 cabal-version: 3.0
 
 name: pro-abstract
-version: 0.2.1.0
+version: 0.3.0.0
 
 category: Language
 synopsis: Abstract syntax for writing documents
@@ -110,7 +110,6 @@ library
       , ProAbstract.Tag.HasManyTags
       , ProAbstract.Tag.HasTag
       , ProAbstract.Tag.HasTagOptics
-      , ProAbstract.Tag.TaggedFamily
       , ProAbstract.Tag.TagOptics
       , ProAbstract.Tag.TagType
       , ProAbstract.Tagless.CanBeTagless

@@ -4,16 +4,15 @@ module ProAbstract.Structure
       Document (..)
 
     -- * Blocks
-    , Block (..), Blocks (..), BlockTag (..), BlockTagContent (..)
+    , Block (..), Blocks (..), BlockTag (..)
+    , TaggedBlocks (..), BlockTagContent (..)
+    , TaggedPlainBlock (..)
 
     -- * Paragraph
     , Paragraph (..)
 
     -- * Inlines
-    , Inline (..), Line (..), Lines (..)
-
-    -- * Tagged
-    , Tagged (..)
+    , Inline (..), Line (..), Lines (..), TaggedLines (..)
 
     -- * Text
     , PlainBlock (..), Fragment (..)

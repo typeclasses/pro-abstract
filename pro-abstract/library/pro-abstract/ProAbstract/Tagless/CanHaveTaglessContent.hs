@@ -17,8 +17,8 @@ instance CanHaveTaglessContent (Block ann) where
 
 instance CanHaveTaglessContent (BlockTag ann) where
     taglessContent s =
-        (plain % taglessContent @(Tagged (PlainBlock ann)) s) `afailing`
-        (fork % taglessContent @(Tagged (Blocks ann)) s)
+        (plain % taglessContent @(TaggedPlainBlock ann) s) `afailing`
+        (fork % taglessContent @(TaggedBlocks ann) s)
 
 instance CanHaveTaglessContent (BlockTagContent ann) where
     taglessContent = tagless
@@ -40,13 +40,13 @@ instance CanHaveTaglessContent (Line ann) where
 instance CanHaveTaglessContent (Fragment ann) where
     taglessContent = tagless
 
-instance CanHaveTaglessContent (Tagged (Blocks ann)) where
+instance CanHaveTaglessContent (TaggedBlocks ann) where
     taglessContent s = content % tagless s
 
-instance CanHaveTaglessContent (Tagged (PlainBlock ann)) where
+instance CanHaveTaglessContent (TaggedPlainBlock ann) where
     taglessContent s = content % tagless s
 
-instance CanHaveTaglessContent (Tagged (Lines ann)) where
+instance CanHaveTaglessContent (TaggedLines ann) where
     taglessContent s = content % tagless s
 
 instance CanHaveTaglessContent (Document ann) where

@@ -1,5 +1,5 @@
 module ProAbstract.Structure.Inline
-    ( Inline (..), Line (..), Lines (..), Tagged (..)
+    ( Inline (..), Line (..), Lines (..), TaggedLines (..)
     ) where
 
 import ProAbstract.Annotation
@@ -17,14 +17,14 @@ import ProAbstract.Tag
 -- ⭐ Inline
 
 data Inline ann =
-    InlineFork (Tagged (Lines ann)) -- ^ 'ProAbstract.fork'
+    InlineFork (TaggedLines ann) -- ^ 'ProAbstract.fork'
   | InlinePlain (Fragment ann) -- ^ 'ProAbstract.plain'
   deriving stock (Eq, Show, Generic)
   deriving anyclass (Hashable, NFData)
 
 type instance Annotation (Inline ann) = ann
 
-type instance Fork (Inline ann) = Tagged (Lines ann)
+type instance Fork (Inline ann) = TaggedLines ann
 
 type instance Plain (Inline ann) = Fragment ann
 
@@ -166,9 +166,9 @@ instance HasWitherableTags (Lines ann) where
     witherTags f = traverseOf (contents % traversed) (witherTags f)
 
 
--- ⭐ Tagged Lines
+-- ⭐ TaggedLines
 
-data instance Tagged (Lines ann) =
+data TaggedLines ann =
   TaggedLines
     { linesTag :: Tag ann -- ^ 'ProAbstract.tag'
     , taggedLines :: Lines ann -- ^ 'ProAbstract.content'
@@ -176,42 +176,42 @@ data instance Tagged (Lines ann) =
   deriving stock (Eq, Show, Generic)
   deriving anyclass (Hashable, NFData)
 
-type instance Annotation (Tagged (Lines ann)) = ann
+type instance Annotation (TaggedLines ann) = ann
 
-instance HasTag (Tagged (Lines ann)) where
-    type TagOpticKind (Tagged (Lines ann)) = A_Lens
+instance HasTag (TaggedLines ann) where
+    type TagOpticKind (TaggedLines ann) = A_Lens
     tag = lens linesTag \x a -> x{ linesTag = a }
 
-type instance Content (Tagged (Lines ann)) = Lines ann
+type instance Content (TaggedLines ann) = Lines ann
 
-type instance Contents (Tagged (Lines ann)) = Line ann
+type instance Contents (TaggedLines ann) = Line ann
 
-instance HasManyAnnotations (Tagged (Lines ann)) (Tagged (Lines ann')) where
+instance HasManyAnnotations (TaggedLines ann) (TaggedLines ann') where
     allAnnotations = traversalVL \f (TaggedLines t b) -> TaggedLines
         <$> traverseOf annotation f t <*> traverseOf allAnnotations f b
 
-instance HasAnnotation (Tagged (Lines ann)) (Tagged (Lines ann)) where
+instance HasAnnotation (TaggedLines ann) (TaggedLines ann) where
      annotation = tag % annotation
 
-instance HasContent (Tagged (Lines ann)) (Tagged (Lines ann)) where
+instance HasContent (TaggedLines ann) (TaggedLines ann) where
     content = lens taggedLines \x c -> x{ taggedLines = c }
 
-instance HasContents (Tagged (Lines ann)) (Tagged (Lines ann)) where
+instance HasContents (TaggedLines ann) (TaggedLines ann) where
     contents = content % contents
 
-instance HasMetadata (Tagged (Lines ann)) where
-    type MetadataOpticKind (Tagged (Lines ann)) = A_Lens
+instance HasMetadata (TaggedLines ann) where
+    type MetadataOpticKind (TaggedLines ann) = A_Lens
     metadata = tag % metadata
 
-instance HasManyPlainInlines (Tagged (Lines ann)) where
+instance HasManyPlainInlines (TaggedLines ann) where
     allPlainInlines = content % allPlainInlines
 
-instance HasManyTags (Tagged (Lines ann)) where
+instance HasManyTags (TaggedLines ann) where
     allTags = tag `adjoin` (content % allTags)
     allInlineTags = allTags
 
-instance HasWitherableInlineTags (Tagged (Lines ann)) where
+instance HasWitherableInlineTags (TaggedLines ann) where
     witherInlineTags f = traverseOf content (witherInlineTags f)
 
-instance HasManyMetadata (Tagged (Lines ann)) where
+instance HasManyMetadata (TaggedLines ann) where
    allMetadata = allTags % metadata

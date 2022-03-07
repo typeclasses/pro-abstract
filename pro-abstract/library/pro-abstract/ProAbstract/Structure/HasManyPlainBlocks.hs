@@ -6,4 +6,4 @@ import ProAbstract.Annotation
 import ProAbstract.Structure.PlainBlock
 
 class HasManyPlainBlocks x where
-    allPlainBlocks :: Traversal' x (Tagged (PlainBlock (Annotation x)))
+    allPlainBlocks :: Traversal' x (TaggedPlainBlock (Annotation x))

@@ -49,7 +49,7 @@ instance IsTaggedOrBare (TaggedOrBare a) where
 
 instance IsTaggedOrBare (Inline ann) where
 
-    type TaggedType (Inline ann) = Tagged (Lines ann)
+    type TaggedType (Inline ann) = TaggedLines ann
     type BareType (Inline ann) = Fragment ann
 
     taggedOrBare = iso f g

@@ -18,8 +18,8 @@ import ProAbstract.Structure.PlainBlock
 import ProAbstract.Tag
 
 data BlockTag ann =
-    BlockTagFork  (Tagged (Blocks ann))     -- ^ 'ProAbstract.fork'
-  | BlockTagPlain (Tagged (PlainBlock ann)) -- ^ 'ProAbstract.plain'
+    BlockTagFork  (TaggedBlocks ann)     -- ^ 'ProAbstract.fork'
+  | BlockTagPlain (TaggedPlainBlock ann) -- ^ 'ProAbstract.plain'
   deriving stock (Eq, Show, Generic)
   deriving anyclass (Hashable, NFData)
 
@@ -27,9 +27,9 @@ type instance Content (BlockTag ann) = BlockTagContent ann
 
 type instance Annotation (BlockTag ann) = ann
 
-type instance Plain (BlockTag ann) = Tagged (PlainBlock ann)
+type instance Plain (BlockTag ann) = TaggedPlainBlock ann
 
-type instance Fork (BlockTag ann) = Tagged (Blocks ann)
+type instance Fork (BlockTag ann) = TaggedBlocks ann
 
 instance HasContent (BlockTag ann) (BlockTag ann) where
     content = lens f g

@@ -22,7 +22,9 @@ module ProAbstract.Types
     , Seq
     , Set
     , Tag
-    , Tagged
+    , TaggedBlocks
+    , TaggedLines
+    , TaggedPlainBlock
     , TaggedOrBare
     , Text
     ) where

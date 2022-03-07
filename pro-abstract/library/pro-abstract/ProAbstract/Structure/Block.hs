@@ -1,5 +1,5 @@
 module ProAbstract.Structure.Block
-    ( Block (..), paragraph, Blocks (..), Tagged (..)
+    ( Block (..), paragraph, Blocks (..), TaggedBlocks (..)
     ) where
 
 import ProAbstract.Annotation
@@ -20,17 +20,17 @@ import ProAbstract.Tag
 -- ⭐ Block
 
 data Block ann =
-    BlockPlain     (Tagged (PlainBlock ann)) -- ^ 'ProAbstract.plain'
-  | BlockParagraph (Paragraph ann)           -- ^ 'ProAbstract.bare'
-  | BlockFork      (Tagged (Blocks ann))     -- ^ 'ProAbstract.fork'
+    BlockPlain     (TaggedPlainBlock ann)  -- ^ 'ProAbstract.plain'
+  | BlockParagraph (Paragraph ann)         -- ^ 'ProAbstract.bare'
+  | BlockFork      (TaggedBlocks ann)      -- ^ 'ProAbstract.fork'
   deriving stock (Eq, Show, Generic)
   deriving anyclass (Hashable, NFData)
 
 type instance Annotation (Block ann) = ann
 
-type instance Plain (Block ann) = Tagged (PlainBlock ann)
+type instance Plain (Block ann) = TaggedPlainBlock ann
 
-type instance Fork (Block ann) = Tagged (Blocks ann)
+type instance Fork (Block ann) = TaggedBlocks ann
 
 instance HasMetadata (Block ann) where
     type MetadataOpticKind (Block ann) = An_AffineTraversal
@@ -177,9 +177,9 @@ instance HasWitherableInlineTags (Blocks ann) where
     witherInlineTags f = traverseOf (contents % traversed) (witherInlineTags f)
 
 
--- ⭐ Tagged Blocks
+-- ⭐ TaggedBlocks
 
-data instance Tagged (Blocks ann) =
+data TaggedBlocks ann =
   TaggedBlocks
     { blocksTag :: Tag ann -- ^ 'ProAbstract.tag'
     , taggedBlocks :: Blocks ann -- ^ 'ProAbstract.content'
@@ -187,51 +187,51 @@ data instance Tagged (Blocks ann) =
   deriving stock (Eq, Show, Generic)
   deriving anyclass (Hashable, NFData)
 
-type instance Annotation (Tagged (Blocks ann)) = ann
+type instance Annotation (TaggedBlocks ann) = ann
 
-instance HasTag (Tagged (Blocks ann)) where
-    type TagOpticKind (Tagged (Blocks ann)) = A_Lens
+instance HasTag (TaggedBlocks ann) where
+    type TagOpticKind (TaggedBlocks ann) = A_Lens
     tag = lens blocksTag \x a -> x{ blocksTag = a }
 
-type instance Content (Tagged (Blocks ann)) = Blocks ann
+type instance Content (TaggedBlocks ann) = Blocks ann
 
-type instance Contents (Tagged (Blocks ann)) = Block ann
+type instance Contents (TaggedBlocks ann) = Block ann
 
-instance HasManyAnnotations (Tagged (Blocks ann)) (Tagged (Blocks ann')) where
+instance HasManyAnnotations (TaggedBlocks ann) (TaggedBlocks ann') where
     allAnnotations = traversalVL \f (TaggedBlocks t b) -> TaggedBlocks
         <$> traverseOf annotation f t <*> traverseOf allAnnotations f b
 
-instance HasAnnotation (Tagged (Blocks ann)) (Tagged (Blocks ann)) where
+instance HasAnnotation (TaggedBlocks ann) (TaggedBlocks ann) where
      annotation = tag % annotation
 
-instance HasContent (Tagged (Blocks ann)) (Tagged (Blocks ann)) where
+instance HasContent (TaggedBlocks ann) (TaggedBlocks ann) where
     content = lens taggedBlocks \x c -> x{ taggedBlocks = c }
 
-instance HasContents (Tagged (Blocks ann)) (Tagged (Blocks ann)) where
+instance HasContents (TaggedBlocks ann) (TaggedBlocks ann) where
     contents = content % contents
 
-instance HasMetadata (Tagged (Blocks ann)) where
-    type MetadataOpticKind (Tagged (Blocks ann)) = A_Lens
+instance HasMetadata (TaggedBlocks ann) where
+    type MetadataOpticKind (TaggedBlocks ann) = A_Lens
     metadata = tag % metadata
 
-instance HasManyPlainInlines (Tagged (Blocks ann)) where
+instance HasManyPlainInlines (TaggedBlocks ann) where
     allPlainInlines = content % allPlainInlines
 
-instance HasManyTags (Tagged (Blocks ann)) where
+instance HasManyTags (TaggedBlocks ann) where
     allTags = tag `adjoin` (content % allTags)
     allInlineTags = allParagraphs % allInlineTags
 
-instance HasManyBlockTags (Tagged (Blocks ann)) where
+instance HasManyBlockTags (TaggedBlocks ann) where
     allBlockTags = tag `adjoin` (content % allBlockTags)
 
-instance HasWitherableInlineTags (Tagged (Blocks ann)) where
+instance HasWitherableInlineTags (TaggedBlocks ann) where
     witherInlineTags f = traverseOf allParagraphs (witherInlineTags f)
 
-instance HasManyMetadata (Tagged (Blocks ann)) where
+instance HasManyMetadata (TaggedBlocks ann) where
     allMetadata = allTags % metadata
 
-instance HasManyParagraphs (Tagged (Blocks ann)) where
+instance HasManyParagraphs (TaggedBlocks ann) where
     allParagraphs = content % allParagraphs
 
-instance HasManyPlainBlocks (Tagged (Blocks ann)) where
+instance HasManyPlainBlocks (TaggedBlocks ann) where
     allPlainBlocks = content % allPlainBlocks

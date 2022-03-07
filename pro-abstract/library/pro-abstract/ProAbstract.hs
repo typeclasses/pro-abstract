@@ -13,24 +13,20 @@ License: MPL-2.0
 
 === Tagged nodes
 
-/Tagged/ nodes are branch points within a document.
-
 - 'Tag' = ('name' : 'Text') × ('metadata' : 'Metadata') × ('annotation' : 'Annotation')
 
-- 'Tagged' x = ('tag' : 'Tag') × ('content' : x)
+/Tagged/ nodes are branch points within a document.
 
-'Tagged' is a data family, where the type parameter corresponds to the type of content under the tag. There are three instances of this family:
-
-- 'Tagged' 'Blocks'
-- 'Tagged' 'PlainBlock'
-- 'Tagged' 'Lines'
+- 'TaggedBlocks'     = ('tag' : 'Tag') × ('content' : 'Blocks')
+- 'TaggedPlainBlock' = ('tag' : 'Tag') × ('content' : 'PlainBlock')
+- 'TaggedLines'      = ('tag' : 'Tag') × ('content' : 'Lines')
 
 Optics:
 
 - 'tag' targets the tag at a node; it is either a lens or an affine traversal, depending on the node type.
 - The 'allTags' traversal targets every tag at and below a node.
 - The 'allBlockTags' and 'allInlineTags' also target tags at or below a node, but are limited to tags at the block or inline level, respectively.
-- Since a tag has metadata, all of the optics for targeting parts of metadata (e.g. 'atSetting' and 'hasProperty') are also available on 'Tag' and on 'Tagged' nodes.
+- Since a tag has metadata, all of the optics for targeting parts of metadata (e.g. 'atSetting' and 'hasProperty') are also available on 'Tag' and on @Tagged...@ nodes.
 
 Operations for altering tags and/or removing tagged nodes in bulk:
 
@@ -44,17 +40,17 @@ Example: @'mapMaybeTags' (preview (filtered \\x -> view 'name' x /= "comment"))@
 
 /Block-level/ content is everything that appears below the document level and above the paragraph level.
 
-- 'Block' = ('fork' : 'Tagged' 'Blocks') ∪ ('plain' : 'Tagged' 'PlainBlock') ∪ ('bare' : 'Paragraph')
+- 'Block' = ('fork' : 'TaggedBlocks') ∪ ('plain' : 'TaggedPlainBlock') ∪ ('bare' : 'Paragraph')
 
 There are three kinds of block:
 
 - /Fork/ blocks contain more blocks.
 
-    * 'Tagged' 'Blocks' = ('tag' : 'Tag') × ('contents' : 'Block')
+    * 'TaggedBlocks' = ('tag' : 'Tag') × ('contents' : 'Block')
 
 - /Plain/ blocks contain text.
 
-    * 'Tagged' 'PlainBlock' = ('tag' : 'Tag') × ('content' : 'PlainBlock')
+    * 'TaggedPlainBlock' = ('tag' : 'Tag') × ('content' : 'PlainBlock')
     * 'PlainBlock' = ('contents' : 'Fragment') × ('annotation' : 'Annotation')
 
 - /Bare/ blocks (paragraphs) contain inline content.
@@ -68,7 +64,7 @@ Unenforced guideline: The 'Lines' of a 'Paragraph' should contain at least one '
 
 A /BlockTag/ is a non-paragraph Block.
 
-- 'BlockTag' = ('fork' : 'Tagged' 'Blocks') ∪ ('plain' : 'Tagged' 'PlainBlock')
+- 'BlockTag' = ('fork' : 'TaggedBlocks') ∪ ('plain' : 'TaggedPlainBlock')
 
 The Block type can be described in terms of BlockTag as:
 
@@ -88,13 +84,13 @@ The BlockTag type can also be described as:
 
 Inline content is grouped into lines; we specify no particular semantics of line breaks but suggest that a typical consumer of 'Lines' will fold them together with a single space character interspersed between the lines.
 
-- 'Inline' = ('fork' or 'tagged' : 'Tagged' 'Lines') ∪ ('plain' or 'bare' : 'Fragment')
+- 'Inline' = ('fork' or 'tagged' : 'TaggedLines') ∪ ('plain' or 'bare' : 'Fragment')
 
 There are two kinds of inline:
 
 - /Fork/ or /tag/ inlines contain more inlines.
 
-    * 'Tagged' 'Lines' = ('tag' : 'Tag') × ('content' : 'Lines')
+    * 'TaggedLines' = ('tag' : 'Tag') × ('content' : 'Lines')
     * 'Lines' = ('contents' : 'Line')
     * 'Line' = ('content' : 'Seq' 'Inline') × ('annotation' : 'Annotation')
 
@@ -154,7 +150,11 @@ List of nodes and their content types:
 +-----------------------+-----------------------+-----------------------+
 | 'PlainBlock'          | —                     | 'Fragment'            |
 +-----------------------+-----------------------+-----------------------+
-| 'Tagged' y            | y                     | 'Contents' y          |
+| 'TaggedBlocks'        | 'Blocks'              | 'Block'               |
++-----------------------+-----------------------+-----------------------+
+| 'TaggedLines'         | 'Lines'               | 'Line'                |
++-----------------------+-----------------------+-----------------------+
+| 'TaggedPlainBlock'    | 'PlainBlock'          | 'Fragment'            |
 +-----------------------+-----------------------+-----------------------+
 | 'Fragment'            | 'Text'                | —                     |
 +-----------------------+-----------------------+-----------------------+
@@ -175,7 +175,7 @@ List of nodes and their tagged/bare types:
 +-----------------------+-----------------------+-----------------------+
 | 'Block'               | 'BlockTag'            | 'Paragraph'           |
 +-----------------------+-----------------------+-----------------------+
-| 'Inline'              | 'Tagged' 'Lines'      | 'Fragment'            |
+| 'Inline'              | 'TaggedLines'         | 'Fragment'            |
 +-----------------------+-----------------------+-----------------------+
 
 
@@ -189,13 +189,13 @@ The 'plain' prism is overloaded via the 'Plain' type family and 'CanBePlain' cla
 
 List of nodes and their fork/plain types:
 
-+-----------------------+-----------------------+-----------------------+
-| __x__                 | __Fork x__            | __Plain x__           |
-+-----------------------+-----------------------+-----------------------+
-| 'Block'               | 'Tagged' 'Blocks'     | 'Tagged' 'PlainBlock' |
-+-----------------------+-----------------------+-----------------------+
-| 'Inline'              | 'Tagged' 'Lines'      | 'Fragment'            |
-+-----------------------+-----------------------+-----------------------+
++-----------------------+--------------------+-----------------------+
+| __x__                 | __Fork x__         | __Plain x__           |
++-----------------------+--------------------+-----------------------+
+| 'Block'               | 'TaggedBlocks'     | 'TaggedPlainBlock'    |
++-----------------------+--------------------+-----------------------+
+| 'Inline'              | 'TaggedLines'      | 'Fragment'            |
++-----------------------+--------------------+-----------------------+
 
 ('Block' also has a third prism, 'bare', which is neither fork nor plain.)
 
@@ -236,15 +236,15 @@ module ProAbstract
     (
     {- * Document -} Document (..),
 
-    {- * Blocks -} Block (..), Blocks (..),
+    {- * Blocks -} Block (..), Blocks (..), TaggedBlocks (..),
     {- ** Paragraphs -} Paragraph (..), HasManyParagraphs (..),
     {- ** Tag blocks -} BlockTag (..), BlockTagContent (..),
 
-    {- * Lines -} Inline (..), Line (..), Lines (..),
-    {- ** Plain text -} Fragment (..), PlainBlock (..),
+    {- * Lines -} Inline (..), Line (..), Lines (..), TaggedLines (..),
+    {- ** Plain text -} Fragment (..), PlainBlock (..), TaggedPlainBlock (..),
             HasManyPlainInlines (..), HasManyPlainBlocks (..),
 
-    {- * Tags -} Tag (..), Tagged (..), name, HasTag (..),
+    {- * Tags -} Tag (..), name, HasTag (..),
     {- ** Traversal -} HasManyTags (..), HasManyBlockTags (..),
     {- ** Withering -} HasWitherableTags (..),
             HasWitherableInlineTags (..), HasWitherableBlockTags (..),

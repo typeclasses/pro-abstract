@@ -3,9 +3,6 @@ module ProAbstract.Families
     -- * Annotation
       Annotation
 
-    -- * Content plus a tag
-    , Tagged
-
     -- ** Content
     , Content, Contents
 
