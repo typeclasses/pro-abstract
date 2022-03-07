@@ -12,21 +12,17 @@ module ProAbstract.Types
     , Inline
     , Line
     , Lines
-    , Map
     , MetaItem
     , MetaValue
     , Metadata
     , Paragraph
     , Plain
     , PlainBlock
-    , Seq
-    , Set
     , Tag
     , TaggedBlocks
     , TaggedLines
     , TaggedPlainBlock
     , TaggedOrBare
-    , Text
     ) where
 
 import ProAbstract.Datatypes

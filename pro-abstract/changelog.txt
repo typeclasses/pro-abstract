@@ -27,3 +27,7 @@ v0.3.0.0
         - Tagged PlainBlock -> TaggedPlainBlock
         - Tagged Lines -> TaggedLines
         - Tagged Blocks -> TaggedBlocks
+    - "ProAbstract.Types" no longer re-exports:
+            Map, Seq, Set, and Text
+      Import them directly from the 'containers'
+      and 'text' packages instead.
