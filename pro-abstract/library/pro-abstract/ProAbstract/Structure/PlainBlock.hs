@@ -37,7 +37,7 @@ instance HasManyAnnotations (PlainBlock ann) (PlainBlock ann') where
 
 data TaggedPlainBlock ann =
   TaggedPlainBlock
-    { plaintextTag :: Tag ann -- ^ 'ProAbstract.Tag'
+    { plaintextTag :: Tag ann -- ^ 'ProAbstract.tag'
     , taggedPlaintext :: PlainBlock ann -- ^ 'ProAbstract.content'
     }
   deriving stock (Eq, Show, Generic)
